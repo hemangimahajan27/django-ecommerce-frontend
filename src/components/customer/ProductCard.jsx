@@ -3,19 +3,12 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ShoppingBag, Eye, Star } from 'lucide-react';
 import { formatINR } from '../../utils/formatters';
+import { getProductImage } from '../../utils/productImages';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { toast } from 'react-toastify';
 
 export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
-
-  const getProductImage = () => {
-    if (product.image) {
-      if (product.image.startsWith('http://') || product.image.startsWith('https://')) return product.image;
-      return `https://django-ecommerce-backend-7jue.onrender.com${product.image.startsWith('/') ? '' : '/'}${product.image}`;
-    }
-    return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80';
-  };
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -41,7 +34,7 @@ export const ProductCard = ({ product }) => {
       {/* Image Container */}
       <div style={{ position: 'relative', height: '220px', overflow: 'hidden', background: 'var(--bg-tertiary)' }}>
         <img
-          src={getProductImage()}
+          src={getProductImage(product)}
           alt={product.name}
           onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80'; }}
           style={{

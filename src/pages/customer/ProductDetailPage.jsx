@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById, fetchProducts } from '../../redux/slices/productSlice';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { formatINR } from '../../utils/formatters';
+import { getProductImage } from '../../utils/productImages';
 import { ProductCard } from '../../components/customer/ProductCard';
 import { ShoppingBag, Tag, ArrowLeft, ShieldCheck, Truck } from 'lucide-react';
 import { toast } from 'react-toastify';
@@ -28,14 +29,6 @@ export const ProductDetailPage = () => {
     );
   }
 
-  const getProductImage = () => {
-    if (product.image) {
-      if (product.image.startsWith('http://') || product.image.startsWith('https://')) return product.image;
-      return `https://django-ecommerce-backend-7jue.onrender.com${product.image.startsWith('/') ? '' : '/'}${product.image}`;
-    }
-    return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80';
-  };
-
   const isOutOfStock = product.stock <= 0;
   const relatedProducts = products.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
 
@@ -58,7 +51,7 @@ export const ProductDetailPage = () => {
           {/* Image Container */}
           <div style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden', background: 'var(--bg-tertiary)', height: '380px' }}>
             <img
-              src={getProductImage()}
+              src={getProductImage(product)}
               alt={product.name}
               onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80'; }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}

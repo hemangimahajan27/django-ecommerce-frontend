@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
 import { formatINR } from '../../utils/formatters';
+import { getProductImage } from '../../utils/productImages';
 import {
   removeFromCart,
   updateQuantity,
@@ -29,14 +30,6 @@ export const CartDrawer = () => {
     } else {
       navigate('/checkout');
     }
-  };
-
-  const getProductImage = (item) => {
-    if (item.image) {
-      if (item.image.startsWith('http://') || item.image.startsWith('https://')) return item.image;
-      return `https://django-ecommerce-backend-7jue.onrender.com${item.image.startsWith('/') ? '' : '/'}${item.image}`;
-    }
-    return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80';
   };
 
   return (
