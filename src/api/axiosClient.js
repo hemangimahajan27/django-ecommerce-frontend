@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://django-ecommerce-backend-7jue.onrender.com';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'https://django-ecommerce-backend-7jue.onrender.com').replace(/\/+$/, '');
+const API_ROOT_URL = API_BASE_URL.endsWith('/api') ? API_BASE_URL : `${API_BASE_URL}/api`;
 
 const axiosClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_ROOT_URL,
 });
 
 // Request Interceptor: Attach JWT Token
@@ -31,7 +32,7 @@ axiosClient.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          const res = await axios.post('https://django-ecommerce-backend-7jue.onrender.com/api/users/token/refresh/', {
+          const res = await axios.post(`${API_ROOT_URL}/users/token/refresh/`, {
             refresh: refreshToken,
           });
 
